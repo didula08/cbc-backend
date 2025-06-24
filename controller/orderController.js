@@ -1,6 +1,6 @@
 import Order from "../module/order.js";
 import Product from "../module/product.js";
-import { isAdmin} from "./userController";
+import { isAdmin} from "./userController.js";
 
 export async function createOrder(req, res) {
 	if (req.user == null) {
@@ -16,11 +16,12 @@ export async function createOrder(req, res) {
 		orderInfo.name = req.user.firstName + " " + req.user.lastName;
 	}
 
-	//CBC00001
+
 	let orderId = "CBC00001";
 
+
 	const lastOrder = await Order.find().sort({ date: -1 }).limit(1);
-	//[]
+
 	if (lastOrder.length > 0) {
 		const lastOrderId = lastOrder[0].orderId; //"CBC00551"
 
@@ -97,4 +98,35 @@ export async function createOrder(req, res) {
 			error: err,
 		});
 	}
+}
+
+export async function getOrder(req,res){
+
+    if(req.user==null){
+        res.json({
+            message:"please log and try again"
+        });
+        return;
+    }
+
+    try{
+        if(req.user.role=="Admin"){
+            const orders=new Order.find();
+            res.json(orders);
+        }
+        else{
+            const orders=new Order.find({email:req.user.email});
+            res.json(orders);
+        }
+
+    }catch(err){
+        res.status(500).json({
+            message:"Failed to get order",
+            error:err
+        })
+        
+
+    }
+    
+
 }
