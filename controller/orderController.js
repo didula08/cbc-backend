@@ -64,7 +64,7 @@ export async function createOrder(req, res) {
 					name: item.name,
 					altNames: item.altNames,
 					description: item.description,
-					images: item.images,
+					images: item.image,
 					labelledPrice: item.labelledPrice,
 					price: item.price,
 				},
