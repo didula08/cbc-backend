@@ -11,6 +11,8 @@ import orderRouter from './routes/orderRoute.js';
 
 let app = express();
 
+app.use(cors())
+
 app.use(bodyParser.json());
 
 app.use(
