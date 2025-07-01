@@ -5,9 +5,11 @@ import userRouter from './routes/userRoute.js';
 import productRouter from './routes/productRoute.js';
 import jwt from 'jsonwebtoken';
 import orderRouter from './routes/orderRoute.js';
+import cors from 'cors';
+import dotenv from 'dotenv';
 
 
-
+dotenv.config();
 
 let app = express();
 
@@ -21,7 +23,7 @@ app.use(
         if(tokenString != null){
             const token = tokenString.replace("Bearer ", "")
 
-            jwt.verify(token,"cbc-batch-five#@2025", 
+            jwt.verify(token,process.env.JWT_KEY , 
                 (err,decoded)=>{
                     if(decoded != null){
                         req.user = decoded
@@ -40,7 +42,7 @@ app.use(
         }
     }
 )
-mongoose.connect("mongodb+srv://admin:123@cluster0.igwzw8i.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0").then(() => {
+mongoose.connect(process.env.MONGODB_URL).then(() => {
   console.log('Connected to MongoDB');
 }).catch(err => {
   console.error('Error connecting to MongoDB:', err);
