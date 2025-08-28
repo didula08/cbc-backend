@@ -1,11 +1,12 @@
 import express from 'express';
-import { deleteProduct, getProducts,saveProduct, updateProduct } from '../controller/productController.js';
+import { deleteProduct, getProducts, saveProduct, updateProduct, getProductById } from '../controller/productController.js'; // ✅ add getProductById
 
-const productRouter=express.Router();
+const productRouter = express.Router();
 
-productRouter.get("/",getProducts);
-productRouter.post("/",saveProduct);
-productRouter.delete("/:productId",deleteProduct)
-productRouter.put("/:productId",updateProduct)
+productRouter.get('/', getProducts);
+productRouter.get('/:productId', getProductById); // ✅ NEW: fetch single product by productId
+productRouter.post('/', saveProduct);
+productRouter.put('/:productId', updateProduct);
+productRouter.delete('/:productId', deleteProduct);
 
 export default productRouter;
